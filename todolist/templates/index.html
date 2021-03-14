@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+  <title>Home</title>
+{% endblock title %}
+
+{% block contents %}
+  <div class="container">
+        <div class="row mt-3 ">
+            <img class="col-lg-4" src="{% static 'images/stickynotes.jpg' %}" alt="">
+            <img class="col-lg-4" src="{% static 'images/stickynotes-1.jpg' %}" alt="">
+            <img class="col-lg-4" src="{% static 'images/stickynotes-2.jpg' %}" alt="">
+        </div>
+        <div class="row mt-4 ">
+          <center><p class = "h3 text-primary ">Quick And Easy To Use, Anytime , Anywhere!</p></center>
+          <center><p class = "h5 mt-1">Plan Your Day Better, Get Your Life Organized</p></center>
+          <center><p class = "h7 mt-2">TASKMATE Lets You Keep Track Your Task At One Place</p></center>
+          <center><a href="{% url 'todolist' %}"><button type="button" class="btn btn-primary mt-3">Let's Get Started</button></a></center>
+        </div>
+  </div>
+{% endblock contents %}

@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+  <title>Todolist</title>
+{% endblock title %}
+
+{% block contents %}
+  <div class="container">
+    <br>
+    {% if messages %}
+      <div class="alert alert-info alert-dismissible fade show" role="alert">
+        {% for message in messages %}
+          {{message}}
+        {% endfor %}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <br>
+      {% endif %}
+     <form method="POST">
+        {% csrf_token %}
+        <div class="row">
+        <label class="col-lg-4"></label>
+        <input type="input" class="col-lg-6" name ="task" placeholder="New Task?">
+        <button type="submit" class="btn btn-primary col-lg-2">Add Task</button>
+        </div>
+    </form>
+
+    <br>
+    <br>
+    <table class="table">
+      <thead class="table-dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Task Name</th>
+          <th scope="col">Status</th>
+          <th scope="col">Delete</th>
+          <th scope="col">Edit</th>
+        </tr>
+      </thead>
+      {% if all_task %}
+      <tbody>
+        {% for obj in all_task %}
+          {% if obj.done %}
+                <tr class="table-success">
+                  <th scope="row">{{obj.id}}</th>
+                  <td><del>{{obj.task}}</del></td>
+                  <td><a href="{% url 'pending' obj.id %}">Mark this Pending</a></td>
+                  <td><a href="{% url 'delete' obj.id %}">Delete</a></td>
+                  <td><a href="{% url 'edit' obj.id %}">Edit</a></td>
+                </tr>
+            {% else %}
+                <tr>
+                  <th scope="row">{{obj.id}}</th>
+                  <td>{{obj.task}}</td>
+                  <td><a href="{% url 'complete' obj.id %}">Mark this Completed</a></td>
+                  <td><a href="{% url 'delete' obj.id %}">Delete</a></td>
+                  <td><a href="{% url 'edit' obj.id %}">Edit</a></td>
+                </tr>
+              {% endif %}
+          {% endfor %}
+      </tbody>
+      {% endif %}
+    </table>
+
+        <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-end">
+            <li class="page-item"><a class="page-link" href="?pg=1" tabindex="-1" >Previous</a></li>
+            {% if all_task.has_previous %}
+              <li class="page-item"><a class="page-link" href="?pg={{ all_task.previous_page_number}}">{{ all_task.previous_page_number}}</a></li>
+            {% endif %}
+            <li class="page-item"><a class="page-link" href="?pg={{all_task.number}}">{{all_task.number}}</a></li>
+            {% if all_task.has_next %}
+              <li class="page-item"><a class="page-link" href="?pg={{all_task.next_page_number}}">{{all_task.next_page_number}}</a></li>
+            {% endif %}
+            <li class="page-item"><a class="page-link" href="?pg={{all_task.paginator.num_pages}}">Next</a></li>
+          </ul>
+      </nav>
+  </div>
+{% endblock contents %}
